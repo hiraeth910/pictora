@@ -8,7 +8,7 @@ const LoginPage = () => {
       script.id = "otpless-sdk";
       script.type = "text/javascript";
       script.src = "https://otpless.com/v4/auth.js";
-      script.setAttribute("data-appid", "DOA43V9OYR3TNFU9R08V"); // Replace with actual App ID
+      script.setAttribute("data-appid", "6VJPMFZXBL47ZICHAF4S"); // Replace with actual App ID
 
       script.onload = () => {
         console.log("OTPLESS SDK Loaded");
