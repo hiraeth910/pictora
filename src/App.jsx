@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import './App.css'
 import LoginPage from './auth/LoginPage';
+import PanDetailsForm from './Screens/PanDetailsForm';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
    <Router>
     <Routes>
-      <Route path="/" element ={<LoginPage/>}/>
+            <Route path="/" element ={<PanDetailsForm/>}/>
+
+      <Route path="/login" element ={<LoginPage/>}/>
     </Routes>
    </Router>
   )
