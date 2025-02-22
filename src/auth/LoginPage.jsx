@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import jwt_decode from "jwt-decode";
+import {jwt_decode} from "jwt-decode";
 import useAuthStore from "../store";
 import { apiClient, endpoints } from "../utils/endpoints";
 
