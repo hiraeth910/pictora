@@ -1,8 +1,22 @@
 import { useEffect } from "react";
-import {jwt_decode} from "jwt-decode";
 import useAuthStore from "../store";
 import { apiClient, endpoints } from "../utils/endpoints";
-
+const decodeJWT = (token) => {
+  try {
+    const base64Url = token.split(".")[1]; // Extract payload
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("Invalid token", error);
+    return null;
+  }
+};
 const LoginPage = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
 
@@ -48,10 +62,9 @@ const LoginPage = () => {
 
             if (token) {
               // Decode JWT to extract role
-              const decodedToken = jwt_decode(token);
-              const { userId } = decodedToken;
-              const role =
-                userId.length === 36 ? "wallet_user" : "provider_user";
+ const decodedToken = decodeJWT(token);
+               const { role } = decodedToken;
+              
 
               // Store in localStorage
               localStorage.setItem("token", token);
