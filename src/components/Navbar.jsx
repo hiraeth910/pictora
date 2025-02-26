@@ -12,7 +12,7 @@ const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
 const styles = {
   background: colors.accent,
   width: isMobile ? "100%" : "65%",
-minWidth:'720px',
+maxWidth:isMobile&&'720px',
   marginRight:'auto',
   marginLeft:'auto'
 };
