@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-catch */
+import useAuthStore from "../store"
 import { apiClient, endpoints } from "./endpoints"
 
+const getProviderToken = () => useAuthStore.getState().providertoken;
 export const getUser=async(phone,name,email)=>{
     try{
       const response =await apiClient.post(endpoints.getUserdetails,{phone:phone,name:name,email:email})
@@ -68,3 +70,119 @@ export const updateDetails = async(name,phone)=>{
     throw err
   }
 }
+
+
+export const fetchCourses = async () => {
+  try {
+    const token = getProviderToken();
+    if (!token) throw new Error("No provider token found");
+
+    const response = await apiClient.get("/api/provider/courses", {
+      headers: { Authorization: token },
+    });
+
+    return response.data.courses; // Assuming the API returns { success: true, courses: [...] }
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return [];
+  }
+};
+
+
+
+export const submitBankDetails = async (bankData) => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.post(endpoints.addbankaccount, bankData, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data; // Success response
+  } catch (error) {
+    return { error: error.response?.data || error.message };
+  }
+};
+
+export const getBankAccounts = async () => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.get(endpoints.getbankaccounts, {
+      headers: { Authorization: token },
+    });
+
+    return response.data; // Returns list of bank accounts
+  } catch (error) {
+    return { error: error.response?.data || error.message };
+  }
+};
+
+export const deleteBankAccount = async (textId) => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.delete(endpoints.getbankaccounts, {
+      headers: { Authorization: token },
+      data: { id: textId }, // Body for DELETE request
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data || error.message };
+  }
+};
+
+export const raiseWithdrawal = async (request) => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.post(endpoints.raisewithdrawl, request, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data || error.message };
+  }
+};
+
+export const getWithdrawalHistory = async (id) => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.get(`${endpoints.withdrawlhistory}${id}`, {
+      headers: { Authorization: token },
+    });
+
+    return response.data; // Returns list of transactions
+  } catch (error) {
+    return { error: error.response?.data || error.message };
+  }
+};
+
+export const getBalance = async () => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.get(endpoints.getwalletbalance, {
+      headers: { Authorization: token },
+    });
+
+    return response.data; // Returns balance data
+  } catch (error) {
+    return { error: error.response?.data || error.message };
+  }
+};

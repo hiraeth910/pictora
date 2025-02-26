@@ -13,7 +13,12 @@ export const endpoints={
      telegramLink: '/api/payment/callback/',
      updateName:'/api/user/complete-profile',
      getpurchases:'/api/payment/get/user/purchases',
-     providerlogin:'/api/auth/user/verifyotp'
+     providerlogin:'/api/auth/user/verifyotp',
+     getwalletbalance:'/api/provider/get/wallet/balance',
+     raisewithdrawl:'/api/provider/raise/withdrawl',
+     getbankaccounts:'/api/provider/get/bankaccounts',
+     withdrawlhistory:'/api/provider/wallet/transactions/',
+     addbankaccount:'/api/provider/add/bank'
     }
 const getToken = () => useAuthStore.getState().token;
 

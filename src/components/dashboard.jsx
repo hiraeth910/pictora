@@ -9,7 +9,7 @@ import {
   Button,
   Form,
 } from "react-bootstrap";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft ,FaTrash} from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Custom shared input style
@@ -62,7 +62,11 @@ const CreateCourse = ({ onBack }) => {
   const [courseContents, setCourseContents] = useState("");
   const [price, setPrice] = useState("");
   const [videos, setVideos] = useState([]);
-
+const removeVideo = (index) => {
+  const updatedVideos = [...videos];
+  updatedVideos.splice(index, 1); // Remove the video at the specified index
+  setVideos(updatedVideos);
+};
   // Helper function to convert a File to a base64 string
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -189,56 +193,64 @@ const CreateCourse = ({ onBack }) => {
             />
           </Form.Group>
           <hr />
-          <h5>Videos</h5>
-          {videos.map((video, index) => (
-            <div key={index} className="mb-3 p-3 border rounded">
-              <Row className="mb-2">
-                <Col xs={12} md={6}>
-                  <Form.Group controlId={`videoTitle${index}`}>
-                    <Form.Label>Video Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Video Title"
-                      value={video.title}
-                      onChange={(e) =>
-                        handleVideoChange(index, "title", e.target.value)
-                      }
-                      required
-                      style={inputStyle}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col xs={12} md={6}>
-                  <Form.Group controlId={`videoFile${index}`}>
-                    <Form.Label>Video File</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="video/*"
-                      onChange={(e) =>
-                        handleFileChange(index, e.target.files[0])
-                      }
-                      required
-                      style={inputStyle}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Form.Group controlId={`videoDesc${index}`}>
-                <Form.Label>Video Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={2}
-                  placeholder="Video Description"
-                  value={video.description}
-                  onChange={(e) =>
-                    handleVideoChange(index, "description", e.target.value)
-                  }
-                  required
-                  style={inputStyle}
-                />
-              </Form.Group>
-            </div>
-          ))}
+         <h5>Videos</h5>
+{videos.map((video, index) => (
+  <div key={index} className="mb-3 p-3 border rounded position-relative">
+    <Row className="mb-2">
+      <Col xs={12} md={6}>
+        <Form.Group controlId={`videoTitle${index}`}>
+          <Form.Label>Video Title</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Video Title"
+            value={video.title}
+            onChange={(e) =>
+              handleVideoChange(index, "title", e.target.value)
+            }
+            required
+            style={inputStyle}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={12} md={6}>
+        <Form.Group controlId={`videoFile${index}`}>
+          <Form.Label>Video File</Form.Label>
+          <Form.Control
+            type="file"
+            accept="video/*"
+            onChange={(e) => handleFileChange(index, e.target.files[0])}
+            required
+            style={inputStyle}
+          />
+        </Form.Group>
+      </Col>
+    </Row>
+    <Form.Group controlId={`videoDesc${index}`}>
+      <Form.Label>Video Description</Form.Label>
+      <Form.Control
+        as="textarea"
+        rows={2}
+        placeholder="Video Description"
+        value={video.description}
+        onChange={(e) =>
+          handleVideoChange(index, "description", e.target.value)
+        }
+        required
+        style={inputStyle}
+      />
+    </Form.Group>
+    
+    {/* Delete Button */}
+    <Button
+      variant="outline-danger"
+      size="sm"
+      className="position-absolute top-0 end-0 m-2"
+      onClick={() => removeVideo(index)}
+    >
+      <FaTrash />
+    </Button>
+  </div>
+))}
           <Button variant="outline-primary" onClick={addVideo} className="mb-3">
             + Add Video
           </Button>

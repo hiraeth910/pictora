@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import './Navbar.css'
 import MarketplaceDashboard from "./dashboard";
+import CourseList from "./courses";
+import WalletWithdrawal from "./wallet";
 const CustomNav = () => {
   const [activeTab, setActiveTab] = useState("Sell Product");
   const [isOpen, setIsOpen] = useState(false);
@@ -32,9 +34,11 @@ const styles1 = {
 };
 
 const styles2 = {
-  marginTop:'50px',
+  marginTop:isMobile?'20px':'40px',
+  marginLeft:'auto',
+  margintRight:'auto',
   background: colors.light,
-  width: isMobile ? "130%" : "65%",
+  width: isMobile ? "130%" : "130%",
   
 };
 
@@ -87,10 +91,10 @@ style={styles1}
          <MarketplaceDashboard/>
         )}
         {activeTab === "Your products" && (
-          <div className="text-center">Your Courses Component</div>
+          <CourseList/>
         )}
         {activeTab === "Wallet" && (
-          <div className="text-center">Wallet Details</div>
+          <WalletWithdrawal/>
         )}
       </div>
 
