@@ -10,11 +10,32 @@ const CustomNav = () => {
   const [isOpen, setIsOpen] = useState(false);
 const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
 const styles = {
+  width: isMobile ? "100%" : "65%",
+  minWidth: isMobile ? "auto" : "720px",
+  margin: "0 auto", // Centers the navbar
+  display: "flex", // Enables flexbox for child divs
+  flexDirection: isMobile ? "column" : "row", // Stack items vertically on mobile
+  alignItems: "center", // Centers items vertically
+  justifyContent: isMobile ? "center" : "flex-start", // Aligns inner divs
+  padding: "10px", // Add some spacing inside
+};
+const styles1 = {
   background: colors.accent,
   width: isMobile ? "100%" : "65%",
-maxWidth:isMobile&&'720px',
-  marginRight:'auto',
-  marginLeft:'auto'
+  minWidth: isMobile ? "auto" : "720px",
+  margin: "0 auto", // Centers the navbar
+  display: "flex", // Enables flexbox for child divs
+  flexDirection: isMobile ? "column" : "row", // Stack items vertically on mobile
+  alignItems: "center", // Centers items vertically
+  justifyContent: isMobile ? "center" : "flex-start", // Aligns inner divs
+  padding: "10px", // Add some spacing inside
+};
+
+const styles2 = {
+  marginTop:'50px',
+  background: colors.light,
+  width: isMobile ? "130%" : "65%",
+  
 };
 
   const tabs = ["Sell product", "Your products", "Wallet", "Profile"];
@@ -26,7 +47,7 @@ maxWidth:isMobile&&'720px',
         expand="md"
         expanded={isOpen}
         onToggle={(expanded) => setIsOpen(expanded)}
-style={styles}
+style={styles1}
         variant="dark"
         fixed="top"
         
@@ -60,7 +81,7 @@ style={styles}
       </Navbar>
 
       {/* Content (with top padding to prevent being hidden under fixed navbar) */}
-      <div style={{ marginTop: "50px",width:'100%', backgroundColor:colors.light}}>
+      <div style={styles2}>
         {activeTab === "Profile" && <Profile />}
         {activeTab === "Sell product" && (
          <MarketplaceDashboard/>
