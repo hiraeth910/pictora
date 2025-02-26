@@ -67,7 +67,7 @@ const LoginPage = () => {
               
 
               // Store in localStorage
-              localStorage.setItem("token", token);
+              localStorage.setItem("providerToken", token);
               localStorage.setItem("mobileNumber", phoneNumber);
               localStorage.setItem("role", role);
 
@@ -88,7 +88,6 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <h2>Login with OTPLESS</h2>
       <div id="otpless-login-page"></div> {/* OTPLESS UI loads here */}
     </div>
   );
