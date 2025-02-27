@@ -4,6 +4,7 @@ import { fetchCourses } from "../utils/getapi";
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [copiedCourseId, setCopiedCourseId] = useState(null);
 
   useEffect(() => {
     const loadCourses = async () => {
@@ -15,7 +16,13 @@ const CourseList = () => {
 
     loadCourses();
   }, []);
-
+  const handleCopyLink = (courseId) => {
+    const courseLink = `http://localhost:5173/c/courses/${courseId}`;
+    navigator.clipboard.writeText(courseLink).then(() => {
+      setCopiedCourseId(courseId);
+      setTimeout(() => setCopiedCourseId(null), 2000); // Reset after 2 seconds
+    });
+  };
   return (
     <div className="container mt-4">
       {loading ? (
@@ -28,14 +35,13 @@ const CourseList = () => {
                 <div className="card-body">
                   <h5 className="card-title">{course.title}</h5>
                   <p className="card-text text-muted">{course.description.slice(0, 100)}...</p>
-                  <a
-                    href={`https://www.pictora.in/courses/${course.course_id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary w-100"
-                  >
-                    View Course
-                  </a>
+                 <button
+          key={course.course_id}
+          onClick={() => handleCopyLink(course.course_id)}
+          className="btn btn-primary w-100"
+        >
+          {copiedCourseId === course.course_id ? "Copied!" : "Copy Selling Link"}
+        </button>
                   <p className="mt-2 text-muted">
                     <strong>Subscribers:</strong> {course.subs} <br />
                     <strong>Earnings:</strong> ₹{course.earnings.toFixed(2)}

@@ -1,0 +1,77 @@
+.course-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+}
+
+.course-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #E4F9F5;
+}
+
+.card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+
+}
+
+.pay-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pay-button {
+  background: #ff6600;
+  color: white;
+  padding: 12px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pay-button:hover {
+  background: #cc5200;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .course-container {
+    padding: 0px;
+  }
+  .course-title {
+    font-size: 20px;
+  }
+  .card {
+width: 100;  }
+  .pay-button {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+}

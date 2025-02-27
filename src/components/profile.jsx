@@ -9,6 +9,7 @@ import {
   getWithdrawalHistory, getBankAccounts, 
   submitBankDetails, deleteBankAccount 
 } from "../utils/getapi";
+import useAuthStore from "../store";
 // Dashboard component – main page that toggles between menu, transactions, and banks
 export const Dashboar = () => {
   const username = localStorage.getItem("username") || "User";
@@ -32,7 +33,7 @@ export const Dashboar = () => {
 
   // Ref for the transactions scroll container (if needed)
   const transactionsContainerRef = useRef(null);
-
+  const lout = useAuthStore((state)=>state.logout)
   // When view changes, load the corresponding data.
   useEffect(() => {
     if (view === "transactions") {
@@ -119,6 +120,7 @@ export const Dashboar = () => {
         fetchBanks();
       }
     } catch (err) {
+              fetchBanks();
       notification.error({
         message: "Error deleting bank",
         description: err.toString(),
@@ -159,6 +161,7 @@ export const Dashboar = () => {
 
   // Logout function
   const handleLogout = () => {
+    lout()
     localStorage.removeItem("providerToken");
     localStorage.removeItem("username");
     window.location.reload();

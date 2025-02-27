@@ -3,6 +3,7 @@ import useAuthStore from "../store"
 import { apiClient, endpoints } from "./endpoints"
 
 const getProviderToken = () => useAuthStore.getState().providerToken;
+const getToken =()=>useAuthStore.getState().token;
 export const getUser=async(phone,name,email)=>{
     try{
       const response =await apiClient.post(endpoints.getUserdetails,{phone:phone,name:name,email:email})
@@ -131,7 +132,7 @@ export const deleteBankAccount = async (textId) => {
     });
 
     if (response.status!==200) {
-      throw new Error(await response.text());
+      throw new Error(await response.message);
     }
     return await response.message;
   } catch (error) {
@@ -203,5 +204,67 @@ export const getPanVerification = async () => {
     return response.data; // Return parsed data
   } catch (error) {
     throw new Error(error.response?.data || "Failed to fetch Status");
+  }
+};
+export const getCourseDetails = async (courseId) => {
+  try {
+    const response = await apiClient.get(`${endpoints.getCourseDetails}/${courseId}`);
+
+    if (response.status!==200) {
+      throw new Error('no course found');
+    }
+
+    return await response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+export const buyCourse = async (courseId) => {
+  try {
+    const token = getToken();
+    const response = await apiClient.post(
+      endpoints.buycourse,
+      { courseId }, // Include courseId in the request body
+      {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to purchase course");
+    }
+
+    return response.data; // Return response data if successful
+  } catch (err) {
+    return { error: err.message };
+  }
+};
+
+export const getUserCourses = async () => {
+  const token = getToken(); // Get user token
+
+  try {
+    const response = await apiClient.get("/api/user/purchases", {
+      headers: { authorization: token }, // Send authorization token
+    });
+
+    return response.data; // Return course data
+  } catch (error) {
+    console.error("Error fetching user courses:", error);
+
+    // Handle different error cases
+    if (error.response) {
+      // Server responded with an error status
+      return { error: error.response.data.error || "Failed to fetch courses." };
+    } else if (error.request) {
+      // Request was made but no response received
+      return { error: "No response from server. Please check your connection." };
+    } else {
+      // Something else went wrong
+      return { error: "An unexpected error occurred." };
+    }
   }
 };
