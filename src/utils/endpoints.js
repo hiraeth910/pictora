@@ -1,7 +1,8 @@
 import axios from "axios"
 import useAuthStore from "../store";
 
-export const baseurl = 'https://server.telemoni.in'
+// export const baseurl = 'https://server.telemoni.in'
+export const baseurl = 'http://localhost:80'
 
 export const apiClient = axios.create({
     baseURL:baseurl
@@ -18,9 +19,11 @@ export const endpoints={
      raisewithdrawl:'/api/provider/raise/withdrawl',
      getbankaccounts:'/api/provider/get/bankaccounts',
      withdrawlhistory:'/api/provider/wallet/transactions/',
-     addbankaccount:'/api/provider/add/bank'
+     addbankaccount:'/api/provider/add/bank',
+     deleteBankAccount:'/api/provider/delete/bankaccount',
+     getstatus:"/api/user/status"
     }
-const getToken = () => useAuthStore.getState().token;
+const getToken = () => useAuthStore.getState().providerToken;
 
 export const addPan = (data) => {
   const token = getToken();

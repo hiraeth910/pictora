@@ -36,11 +36,10 @@ const WalletWithdrawal = () => {
     if (data.error) {
       notification.error({ message: "Error fetching bank accounts", description: data.error });
     } else {
-        console.log('hi',data)
       setBanks(data || []);
     }
   };
-
+ useEffect(()=>{console.log(selectedBank)},[selectedBank])
   const handleWithdraw = async () => {
     if (!selectedBank) {
       return notification.error({ message: "Please select a bank account" });
@@ -86,13 +85,19 @@ const WalletWithdrawal = () => {
         ) : (
           <Form form={form} layout="vertical">
             <Form.Item label="Select Bank">
-              <Select placeholder="Choose a bank" onChange={setSelectedBank}>
-                {banks.map((bank) => (
-                  <Select.Option key={bank.textId} value={bank.textId}>
-{bank.bank} {bank.acno?.slice(-4)}
-                  </Select.Option>
-                ))}
-              </Select>
+             <Select
+  placeholder="Choose a bank"
+  value={selectedBank} // Ensure the selected value is controlled
+  onChange={(value) => setSelectedBank(value)}
+>
+  {banks.map((bank) => (
+    <Select.Option key={bank.textid} value={bank.textid}>
+      {bank.bank} {bank.acno?.slice(-4)}
+    </Select.Option>
+  ))}
+</Select>
+
+
             </Form.Item>
 
             <Form.Item
@@ -119,7 +124,7 @@ const WalletWithdrawal = () => {
             </Button>
           </Form>
         )}
-      </Card>:        <Typography.Title level={2}>You have a pending withdrawl</Typography.Title>
+      </Card>:        <Typography.Title level={2} type="success">You have a pending withdrawl</Typography.Title>
 }
     </div>
   );

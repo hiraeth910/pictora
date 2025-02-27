@@ -29,7 +29,7 @@ const CourseList = () => {
                   <h5 className="card-title">{course.title}</h5>
                   <p className="card-text text-muted">{course.description.slice(0, 100)}...</p>
                   <a
-                    href={`https://www.pictora.in/c/${course.course_id}`}
+                    href={`https://www.pictora.in/courses/${course.course_id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-primary w-100"

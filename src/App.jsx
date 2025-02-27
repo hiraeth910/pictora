@@ -1,22 +1,63 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import "./App.css";
+import LoginPage from "./auth/LoginPage";
+import CustomNav from "./components/Navbar";
+import AboutPage from "./components/Aboutpage";
+import useAuthStore from "./store";
+import PanDetailsForm from "./Screens/PanDetailsForm";
 
-import './App.css'
-import LoginPage from './auth/LoginPage';
-import PanDetailsForm from './Screens/PanDetailsForm';
-import CustomNav from './components/Navbar';
+function AppWrapper() {
+  const { role } = useAuthStore(); // Get role from Zustand store
+  const navigate = useNavigate();
 
-function App() {
+  // Redirect users based on role at app start
+  useEffect(() => {
+    if (role === "wallet_user") {
+      navigate("/home", { replace: true });
+    } else if (role === "provider_user") {
+      navigate("/get-verified", { replace: true });
+    }
+  }, [role, navigate]);
 
   return (
-   <Router>
     <Routes>
-            <Route path="/" element ={<PanDetailsForm/>}/>
-            <Route path="/navbar" element ={<CustomNav/>}/>
+      {/* Prevent logged-in users from accessing /login */}
+      <Route
+        path="/login"
+        element={
+          role ? (
+            <Navigate to={role === "wallet_user" ? "/home" : "/get-verified"} replace />
+          ) : (
+            <LoginPage />
+          )
+        }
+      />
+<Route path='/' element={<AboutPage/>}/>
+      {/* Home Route (Only Wallet Users) */}
+      <Route
+        path="/home"
+        element={role === "wallet_user" ? <CustomNav /> : <Navigate to="/login" replace />}
+      />
 
-      <Route path="/login" element ={<LoginPage/>}/>
+      {/* Get Verified Route (Only Provider Users) */}
+      <Route
+        path="/get-verified"
+        element={role === "provider_user" ? <PanDetailsForm /> : <Navigate to="/login" replace />}
+      />
+
+      {/* Redirect unknown paths */}
+      <Route path="*" element={<Navigate to={role ? (role === "wallet_user" ? "/home" : "/get-verified") : "/login"} replace />} />
     </Routes>
-   </Router>
-  )
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
+    </Router>
+  );
+}
+
+export default App;

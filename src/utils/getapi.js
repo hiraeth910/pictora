@@ -2,7 +2,7 @@
 import useAuthStore from "../store"
 import { apiClient, endpoints } from "./endpoints"
 
-const getProviderToken = () => useAuthStore.getState().providertoken;
+const getProviderToken = () => useAuthStore.getState().providerToken;
 export const getUser=async(phone,name,email)=>{
     try{
       const response =await apiClient.post(endpoints.getUserdetails,{phone:phone,name:name,email:email})
@@ -126,18 +126,20 @@ export const getBankAccounts = async () => {
 export const deleteBankAccount = async (textId) => {
   try {
     const token = await getProviderToken();
-    if (!token) throw new Error("Token is null. Please login again.");
-
-    const response = await apiClient.delete(endpoints.getbankaccounts, {
-      headers: { Authorization: token },
-      data: { id: textId }, // Body for DELETE request
+    const response = await apiClient.delete(`${endpoints.deleteBankAccount}?id=${textId}`, {
+      headers: { Authorization: token }, // Send token in headers
     });
 
-    return response.data;
+    if (response.status!==200) {
+      throw new Error(await response.text());
+    }
+    return await response.message;
   } catch (error) {
-    return { error: error.response?.data || error.message };
+    return { error: error.message };
   }
 };
+
+
 
 export const raiseWithdrawal = async (request) => {
   try {
@@ -184,5 +186,22 @@ export const getBalance = async () => {
     return response.data; // Returns balance data
   } catch (error) {
     return { error: error.response?.data || error.message };
+  }
+};
+export const getPanVerification = async () => {
+  try {
+    const token = await getProviderToken(); // Get token from secure storage
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.get(endpoints.getstatus, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data; // Return parsed data
+  } catch (error) {
+    throw new Error(error.response?.data || "Failed to fetch Status");
   }
 };

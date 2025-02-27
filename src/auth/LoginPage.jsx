@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import useAuthStore from "../store";
 import { apiClient, endpoints } from "../utils/endpoints";
+import { useNavigate } from "react-router-dom";
 const decodeJWT = (token) => {
   try {
     const base64Url = token.split(".")[1]; // Extract payload
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const jsonPayload = decodeURIComponent(
       atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
+      .split("")
+      .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+      .join("")
     );
     return JSON.parse(jsonPayload);
   } catch (error) {
@@ -18,8 +19,13 @@ const decodeJWT = (token) => {
   }
 };
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
+  const styles1 = {
+    width:isMobile&&'100%'
+  }
   const setAuth = useAuthStore((state) => state.setAuth);
-
+  
   useEffect(() => {
     if (!document.getElementById("otpless-sdk")) {
       const script = document.createElement("script");
@@ -72,8 +78,13 @@ const LoginPage = () => {
               localStorage.setItem("role", role);
 
               // Update Zustand store
-              setAuth(token,null,  phoneNumber,role);
-
+              setAuth(token,null,  phoneNumber,role,null);
+               if (role==='wallet_user'){
+      navigate('/home')
+    }
+    if(role==='provider_user'){
+      navigate('/get-verified')
+    }
               console.log("User authenticated successfully with role:", role);
             }
           }
@@ -87,7 +98,7 @@ const LoginPage = () => {
   }, [setAuth]);
 
   return (
-    <div className="login-container">
+    <div className="login-container" style={styles1}>
       <div id="otpless-login-page"></div> {/* OTPLESS UI loads here */}
     </div>
   );
