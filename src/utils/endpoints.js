@@ -1,8 +1,8 @@
 import axios from "axios"
 import useAuthStore from "../store";
 
-// export const baseurl = 'https://server.telemoni.in'
-export const baseurl = 'http://localhost:80'
+export const baseurl = 'https://server.telemoni.in'
+// export const baseurl = 'http://localhost:80'
 
 export const apiClient = axios.create({
     baseURL:baseurl
