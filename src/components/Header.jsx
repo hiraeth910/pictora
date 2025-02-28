@@ -11,7 +11,9 @@ const Header = () => {
 
   const handleLogout = () => {
     consumerLogout();
+    
     setShowDropdown(false);
+    window.location.reload()
   };
 
   return (

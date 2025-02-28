@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getpaidcourse, buyCourse } from "../utils/getapi"; // Updated API function
+import { useNavigate, useParams } from "react-router-dom";
+import { getpaidcourse, buyCourse, getCourseDetails } from "../utils/getapi"; // Updated API function
 import useAuthStore from "../store"; // Zustand store
 import "./course.css";
 
@@ -11,13 +11,20 @@ const CourseComponent = () => {
   const [isPurchased, setIsPurchased] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!course_id) return;
 
     const fetchCourse = async () => {
       try {
         if (!token) {
+          setIsPurchased(false)
+          const res = await getCourseDetails(course_id);
+          if (res.error) {
+          setError(res.error);
+        } else {
+          setCourse(res);
+        }
           setLoading(false);
           return;
         }
@@ -42,7 +49,9 @@ const CourseComponent = () => {
 
   // Function to handle payment
   const handlePay = async () => {
-    if (!token) return;
+    if (!token) {
+      navigate('/c/login')
+      return}
 
     try {
       const res = await buyCourse(course_id);
@@ -62,7 +71,7 @@ const CourseComponent = () => {
     <div className="course-container">
       <h1 className="course-title">{course?.title}</h1>
 
-      <div className="card">
+      <div className="card" >
         <h2>Description</h2>
         <p>{course?.description}</p>
       </div>
