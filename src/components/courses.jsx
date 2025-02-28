@@ -17,7 +17,7 @@ const CourseList = () => {
     loadCourses();
   }, []);
   const handleCopyLink = (courseId) => {
-    const courseLink = `http://localhost:5173/c/courses/${courseId}`;
+    const courseLink = `https://pictora.in/c/courses/${courseId}`;
     navigator.clipboard.writeText(courseLink).then(() => {
       setCopiedCourseId(courseId);
       setTimeout(() => setCopiedCourseId(null), 2000); // Reset after 2 seconds
