@@ -8,7 +8,7 @@ import MarketplaceDashboard from "./dashboard";
 import CourseList from "./courses";
 import WalletWithdrawal from "./wallet";
 const CustomNav = () => {
-  const [activeTab, setActiveTab] = useState("Sell Product");
+  const [activeTab, setActiveTab] = useState("Sell product");
   const [isOpen, setIsOpen] = useState(false);
 const isMobile = window.innerWidth <= 768; // Adjust breakpoint as needed
 const styles = {

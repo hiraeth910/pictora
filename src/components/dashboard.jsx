@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { FaArrowLeft ,FaTrash} from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { createCourse } from "../utils/getapi";
 
 // Custom shared input style
 const inputStyle = {
@@ -119,12 +120,11 @@ const removeVideo = (index) => {
       price: parseFloat(price),
       videos: videoPayloads,
     };
-
-    console.log("Payload:", payload);
-    // Send the payload to your backend API here.
-    // e.g., await fetch('/api/create-course', { method: 'POST', body: JSON.stringify(payload) })
-
-    alert("Course created! Check console for payload.");
+   const res = await createCourse(payload)
+   if (res){
+    alert('success')
+   }
+   else{alert('something went wrong ')}
   };
 
   return (

@@ -286,3 +286,21 @@ export const getpaidcourse = async (courseId, token) => {
     }
   }
 };
+export const createCourse = async (courseData) => {
+  try {
+    const token = await getProviderToken();
+    if (!token) throw new Error("Token is null. Please login again.");
+
+    const response = await apiClient.post(endpoints.createCourse, courseData, {
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json", // Ensure correct content type
+      },
+    });
+    
+    return response.data.message==="Course created successfully"; // Return the API response
+  } catch (error) {
+    console.error("Error creating course:", error);
+    throw error; // Propagate the error
+  }
+};

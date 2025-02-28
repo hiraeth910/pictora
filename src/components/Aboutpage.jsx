@@ -36,11 +36,7 @@ const AboutPage = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <img 
-          src="https://source.unsplash.com/800x400/?graph,analytics" 
-          alt="Analytics graph"
-          className="rounded-lg shadow-lg w-full max-w-2xl"
-        />
+       
       </motion.div>
 
       {/* Vision Section */}
@@ -139,11 +135,7 @@ const AboutPage = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <img 
-          src="https://source.unsplash.com/800x400/?startup,success" 
-          alt="Startup success"
-          className="rounded-lg shadow-lg w-full max-w-2xl"
-        />
+    
       </motion.div>
 
       {/* CTA Section */}
@@ -160,6 +152,14 @@ const AboutPage = () => {
             whileHover={{ scale: 1.1 }}
           >
             Join Us
+          </motion.button>
+        </Link><Link to="/c/courses/64fee4">
+          <motion.button
+            className="px-6 py-3 text-lg font-semibold text-white rounded-lg shadow-lg"
+            style={{ backgroundColor: colors.primary }}
+            whileHover={{ scale: 1.1 }}
+          >
+            Buy a course
           </motion.button>
         </Link>
       </motion.div>
