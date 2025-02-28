@@ -57,7 +57,7 @@ OptionsGrid.propTypes = {
 };
 
 // CreateCourse component: shows an appbar with back arrow and the form for creating a course
-const CreateCourse = ({ onBack }) => {
+const CreateCourse = ({ onBack ,onsuccess}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [courseContents, setCourseContents] = useState("");
@@ -122,8 +122,7 @@ const removeVideo = (index) => {
     };
    const res = await createCourse(payload)
    if (res){
-    alert('success')
-   }
+return onsuccess('Your products')   }
    else{alert('something went wrong ')}
   };
 
@@ -268,6 +267,9 @@ const removeVideo = (index) => {
 CreateCourse.propTypes = {
   onBack: PropTypes.func.isRequired,
 };
+CreateCourse.propTypes = {
+  onsuccess: PropTypes.func.isRequired,
+};
 
 // Placeholder SellImage component
 const SellImage = ({ onBack }) => {
@@ -293,13 +295,13 @@ SellImage.propTypes = {
 };
 
 // Parent component that switches between the options grid and the chosen view
-const MarketplaceDashboard = () => {
+const MarketplaceDashboard = ({ onAction }) => {
   // activeView can be "menu", "create-course", or "sell-image"
   const [activeView, setActiveView] = useState("menu");
 
   const renderView = () => {
     if (activeView === "create-course") {
-      return <CreateCourse onBack={() => setActiveView("menu")} />;
+      return <CreateCourse onBack={() => setActiveView("menu")} onsuccess={onAction} />;
     } else if (activeView === "sell-image") {
       return <SellImage onBack={() => setActiveView("menu")} />;
     } else {
@@ -309,5 +311,10 @@ const MarketplaceDashboard = () => {
 
   return <div>{renderView()}</div>;
 };
+
+MarketplaceDashboard.propTypes = {
+  onAction: PropTypes.func.isRequired, // Ensuring function is passed
+};
+
 
 export default MarketplaceDashboard;

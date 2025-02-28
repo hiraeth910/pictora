@@ -42,7 +42,10 @@ const styles2 = {
 };
 
   const tabs = ["Sell product", "Your products", "Wallet", "Profile"];
-
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setIsOpen(false); // Close menu when an option is selected
+  };
   return (
     <div style={styles}>
       {/* Navbar fixed on top */}
@@ -87,7 +90,7 @@ style={styles1}
       <div style={styles2}>
         {activeTab === "Profile" && <Dashboar />}
         {activeTab === "Sell product" && (
-         <MarketplaceDashboard/>
+         <MarketplaceDashboard onAction={handleTabChange}/>
         )}
         {activeTab === "Your products" && (
           <CourseList/>
