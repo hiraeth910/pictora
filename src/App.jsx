@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate,Outlet } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import LoginPage from "./auth/LoginPage";
 import CustomNav from "./components/Navbar";
@@ -9,12 +9,33 @@ import PanDetailsForm from "./Screens/PanDetailsForm";
 import CourseComponent from "./components/course";
 import Header from "./components/Header";
 import ConsumerLogin from "./auth/consumerlogin";
+import UserCourses from "./components/UserCourses";
 
 const ProtectedLayout = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const styles = {
+    width: isMobile ? "100%" : "65vw",
+    position: isMobile ? "absolute" : "relative",
+    left: isMobile ? "0" : "auto",
+    marginTop: "50px",
+    marginLeft:'auto',
+    marginRight:'auto'
+  };
+
   return (
     <div>
-      <Header/>
-      <Outlet /> {/* This renders child routes like /c/courses/:course_id */}
+      <Header />
+      <div style={styles}>
+        <Outlet /> {/* Renders child routes */}
+      </div>
     </div>
   );
 };
@@ -65,7 +86,7 @@ function AppWrapper() {
        <Route path="/c" element={<ProtectedLayout />}>
           <Route path="courses/:course_id" element={<CourseComponent />} />
           <Route path="login" element={<ConsumerLogin />} />
-          <Route path="login" element={<AboutPage />} />
+          <Route path="purchases" element={<UserCourses />} />
           <Route path="*" element={<AboutPage />} />
         </Route>
       {/* Redirect unknown paths */}

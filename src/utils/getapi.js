@@ -250,8 +250,7 @@ export const getUserCourses = async () => {
     const response = await apiClient.get("/api/user/purchases", {
       headers: { authorization: token }, // Send authorization token
     });
-
-    return response.data; // Return course data
+    return response.data.courses; // Return course data
   } catch (error) {
     console.error("Error fetching user courses:", error);
 
@@ -264,6 +263,25 @@ export const getUserCourses = async () => {
       return { error: "No response from server. Please check your connection." };
     } else {
       // Something else went wrong
+      return { error: "An unexpected error occurred." };
+    }
+  }
+};
+export const getpaidcourse = async (courseId, token) => {
+  try {
+    const response = await apiClient.get(`${endpoints.getPaidDetails}${courseId}`, {
+      headers: { authorization: token },
+    });
+
+    return response.data; // Returns { isPurchased, course }
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+
+    if (error.response) {
+      return { error: error.response.data.error || "Failed to fetch course details." };
+    } else if (error.request) {
+      return { error: "No response from server. Please check your connection." };
+    } else {
       return { error: "An unexpected error occurred." };
     }
   }

@@ -1,53 +1,57 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getCourseDetails, buyCourse } from "../utils/getapi"; // Import buyCourse function
-import useAuthStore from "../store"; // Import auth store for token
+import { useParams } from "react-router-dom";
+import { getpaidcourse, buyCourse } from "../utils/getapi"; // Updated API function
+import useAuthStore from "../store"; // Zustand store
 import "./course.css";
 
 const CourseComponent = () => {
-  const { course_id } = useParams(); // Get course_id from URL
-  const navigate = useNavigate();
+  const { course_id } = useParams();
+  const { token } = useAuthStore(); // Get token from Zustand store
   const [course, setCourse] = useState(null);
+  const [isPurchased, setIsPurchased] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!course_id) {
-      navigate("/c/purchases"); // Redirect to another screen if no course_id
-      return;
-    }
+    if (!course_id) return;
 
     const fetchCourse = async () => {
-      const data = await getCourseDetails(course_id);
-      console.log(data);
-      if (data.error || !data) {
-        setError("You came here with a broken link.");
-      } else {
-        setCourse(data);
+      try {
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+
+        const data = await getpaidcourse(course_id, token);
+        console.log(data);
+
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setIsPurchased(data.isPurchased);
+          setCourse(data.course);
+        }
+      } catch (err) {
+        setError("Failed to load course details.");
       }
       setLoading(false);
     };
 
     fetchCourse();
-  }, [course_id, navigate]);
+  }, [course_id, token]);
 
   // Function to handle payment
   const handlePay = async () => {
-    const token = useAuthStore.getState().token;
-    if (!token) {
-      navigate("/c/login"); // Redirect if not logged in
-      return;
-    }
+    if (!token) return;
 
     try {
-      const res = await buyCourse(course_id); // Call buyCourse function
-      if (res.error) {
-        throw new Error(res.error);
-      }
-      alert("Purchase successful!"); // Show success message
-      navigate("/c/purchases"); // Redirect after purchase
+      const res = await buyCourse(course_id);
+      if (res.error) throw new Error(res.error);
+
+      alert("Purchase successful!");
+      window.location.reload(); // Reload page after successful payment
     } catch (err) {
-      alert(`Payment failed: ${err.message}`); // Show error message
+      alert(`Payment failed: ${err.message}`);
     }
   };
 
@@ -56,31 +60,45 @@ const CourseComponent = () => {
 
   return (
     <div className="course-container">
-      {/* Course Title */}
-      <h1 className="course-title">{course.title}</h1>
+      <h1 className="course-title">{course?.title}</h1>
 
-      {/* Course Description */}
       <div className="card">
         <h2>Description</h2>
-        <p>{course.description}</p>
+        <p>{course?.description}</p>
       </div>
 
-      {/* Course Contents */}
       <div className="card">
         <h2>Course Contents</h2>
         <ul>
-          {course.course_contents.split("\n").map((content, index) => (
+          {course?.course_contents?.split("\n").map((content, index) => (
             <li key={index}>{content}</li>
           ))}
         </ul>
       </div>
 
-      {/* Payment Section */}
-      <div className="pay-section">
-        <button className="pay-button" onClick={handlePay}>
-          Pay ₹{course.price} to Access
-        </button>
-      </div>
+      {/* If course is purchased, show videos; otherwise, show payment button */}
+      {isPurchased ? (
+        <div className="card">
+          <h2>Course Videos</h2>
+          <ul>
+            {course?.videos?.map((video, index) => (
+              <li key={index}>
+                <video controls width="100%">
+                  <source src={video.url} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <p>{video.title}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div className="pay-section">
+          <button className="pay-button" onClick={handlePay}>
+            Pay ₹{course?.price} to Access
+          </button>
+        </div>
+      )}
     </div>
   );
 };
