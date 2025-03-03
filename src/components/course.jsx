@@ -70,7 +70,7 @@ const CourseComponent = () => {
   return (
     <div className="course-container">
       <h1 className="course-title">{course?.title}</h1>
-
+      <h4>by {<course className="name"></course>}</h4>
       <div className="card" >
         <h2>Description</h2>
         <p>{course?.description}</p>
