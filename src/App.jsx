@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import PrivacyPolicy from "./rules/Privacy";
 import TermsAndConditions from "./rules/Terms";
 import RefundPolicy from "./rules/RefundPolicy";
+import DataDeletionNotice from "./rules/Mailus";
 
 const ProtectedLayout = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -83,6 +84,7 @@ function AppWrapper() {
           element={role === "wallet_user" ? <CustomNav /> : <Navigate to="/login" replace />}
         />
         <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
+        <Route path='/data-deletion' element={<DataDeletionNotice/>}/>
         <Route path='/terms&conditions' element={<TermsAndConditions/>}/>
         <Route path='/Refund-policy' element={<RefundPolicy/>}/>
         <Route
