@@ -55,7 +55,7 @@ function AppWrapper() {
 
     // Exclude /c pages from automatic redirection
     if (!currentPath.startsWith("/c") && 
-    !["/privacy-policy", "/terms&conditions", "/Refund-policy", "/About"].includes(currentPath)) {
+    !["/privacy-policy", "/terms&conditions", "/Refund-policy", "/About","/data-deletion"].includes(currentPath)) {
       if (role === "wallet_user") {
         navigate("/home", { replace: true });
       } else if (role === "provider_user") {

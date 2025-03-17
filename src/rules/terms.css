@@ -14,7 +14,7 @@
     line-height: 1.6;
     background-color: #f9f9f9; /* Light background for readability */
     border-radius: 8px;
-    height: 90%;
+    height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
 }
@@ -23,13 +23,13 @@ h1 {
   font-size: 24px;
   text-align: center;
   margin-bottom: 20px;
-  color: #444;
+  color: #151414;
 }
 
 h2 {
   font-size: 18px;
   margin: 15px 0 10px;
-  color: #666;
+  color: #111010;
 }
 
 p, ul, ol {
