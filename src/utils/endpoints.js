@@ -26,7 +26,9 @@ export const endpoints={
      buycourse:'/api/user/buy/course',
           getPaidDetails:'/api/user/c/',
           createCourse:'/api/provider/add/course',
-    getorderId:'/api/payment/create/orderId'
+    getorderId:'/api/payment/create/orderId',
+    getProductPrice:'/api/get/product/price',
+    getProductInfo:'/api/logged/get/product'
     }
 const getToken = () => useAuthStore.getState().providerToken;
 

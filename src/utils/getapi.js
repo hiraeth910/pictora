@@ -304,3 +304,40 @@ export const createCourse = async (courseData) => {
     throw error; // Propagate the error
   }
 };
+export const getProductPrice = async (link) => {
+  try {
+    const response = await apiClient.get(`${endpoints.getProductPrice}/${link}`);
+
+    // HTTP 200 returns product price
+    if (response.status === 200) {
+      return { price: response.data.price };
+    }
+
+    // If not 200, throw an error to be caught below
+    throw new Error(response.data.error || "Unknown error occurred.");
+  } catch (error) {
+    // Return error message from API or a default message
+    return { error: error.response?.data?.error || error.message || "Failed to fetch product price." };
+  }
+};
+export const getProductInfo = async (productId, token) => {
+  try {
+    const response = await apiClient.post(
+      `${endpoints.getProductInfo}`,
+      { productId, userId: "YOUR_USER_ID" }, // Ensure to pass the actual userId here
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return response.data; // Returns either { link, channel_name } or { ppu }
+    }
+
+    throw new Error(response.data.error || "Error retrieving product info.");
+  } catch (error) {
+    return { error: error.response?.data?.error || error.message || "Failed to fetch product info." };
+  }
+};

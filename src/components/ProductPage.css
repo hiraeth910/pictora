@@ -1,0 +1,118 @@
+.product-page-container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Image container styling */
+.product-image-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.product-image {
+  width: 93%;
+  max-width: 500px;
+  border-radius: 8px;
+  filter: blur(12px);
+}
+
+.lock-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+}
+
+.button-container {
+  margin-top: 30px;
+}
+
+/* Error text */
+.error {
+  color: red;
+}
+
+/* Copy button styling */
+.copy-btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Card styling for purchase info */
+.card-container {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  margin: 20px auto;
+  text-align: left;
+  border: 1px solid #e0e0e0;
+}
+
+/* Desktop card layout */
+.desktop-card {
+  display: block;
+}
+
+.card-title {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.card-link {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.card-link a {
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.card-link a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile-specific styles */
+.mobile-card {
+  display: none;
+}
+
+/* Mobile media query */
+@media (max-width: 600px) {
+  .product-image {
+    width: 93%;
+    max-width: 100%;
+  }
+
+  /* Hide desktop card and show mobile card */
+  .desktop-card {
+    display: none;
+  }
+  .mobile-card {
+    display: block;
+  }
+  .card-title {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+  .card-note {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  .card-link {
+    font-size: 1rem;
+  }
+}
