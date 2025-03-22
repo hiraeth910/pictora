@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { apiClient, endpoints } from '../utils/endpoints';
+import useAuthStore from '../store';
 
 const RazorpayButton = ({ productId,amount }) => {
+    const { token } = useAuthStore();
+
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -19,9 +22,15 @@ const RazorpayButton = ({ productId,amount }) => {
       return;
     }
 
-    const orderResponse = await apiClient.post(endpoints.getorderId, {
-                productId:productId
-              });
+   const orderResponse = await apiClient.post(
+    endpoints.getorderId,
+    { productId: productId },  // Request body
+    {
+        headers: {
+            Authorization: `Bearer ${token}`  // Adding Authorization header
+        }
+    }
+);
 
     const orderData =  orderResponse.data;
     if (!orderData.orderId) {
