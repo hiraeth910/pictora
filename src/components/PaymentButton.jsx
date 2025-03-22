@@ -27,7 +27,7 @@ const RazorpayButton = ({ productId,amount }) => {
     { productId: productId },  // Request body
     {
         headers: {
-            Authorization: `Bearer ${token}`  // Adding Authorization header
+            Authorization:token  // Adding Authorization header
         }
     }
 );
