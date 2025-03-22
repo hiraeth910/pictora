@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import { FaInfoCircle, FaShieldAlt, FaFileContract, FaUndo } from "react-icons/fa"; // Importing icons
+import { FaInfoCircle, FaShieldAlt, FaFileContract, FaUndo, FaServicestack } from "react-icons/fa"; // Added FaServicestack for Services
 
 const Footer = () => {
   const [visible, setVisible] = useState(true);
@@ -32,12 +32,13 @@ const Footer = () => {
     <footer className={`footer ${visible ? "visible" : "hidden"}`}>
       <div className="footer-links">
         {isMobile ? (
-          // Show only icons on mobile
+          // Show icons on mobile
           <div className="footer-icons">
             <Link to="/About" title="About"><FaInfoCircle /></Link>
             <Link to="/privacy-policy" title="Privacy Policy"><FaShieldAlt /></Link>
             <Link to="/terms&conditions" title="Terms & Conditions"><FaFileContract /></Link>
             <Link to="/Refund-policy" title="Refund Policy"><FaUndo /></Link>
+            <Link to="/services" title="Services"><FaServicestack /></Link>
           </div>
         ) : (
           // Show text links on desktop
@@ -46,6 +47,7 @@ const Footer = () => {
             <li><Link to="/privacy-policy">Privacy Policy</Link></li>
             <li><Link to="/terms&conditions">Terms & Conditions</Link></li>
             <li><Link to="/Refund-policy">Refund Policy</Link></li>
+            <li><Link to="/services">Services</Link></li>
           </ul>
         )}
       </div>

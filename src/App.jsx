@@ -15,6 +15,8 @@ import PrivacyPolicy from "./rules/Privacy";
 import TermsAndConditions from "./rules/Terms";
 import RefundPolicy from "./rules/RefundPolicy";
 import DataDeletionNotice from "./rules/Mailus";
+import ServicesPage from "./components/Services";
+import ProductPage from "./components/Productpage";
 
 const ProtectedLayout = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -55,7 +57,7 @@ function AppWrapper() {
 
     // Exclude /c pages from automatic redirection
     if (!currentPath.startsWith("/c") && 
-    !["/privacy-policy", "/terms&conditions", "/Refund-policy", "/About","/data-deletion"].includes(currentPath)) {
+    !["/privacy-policy", "/terms&conditions", "/Refund-policy", "/About","/data-deletion",'/services'].includes(currentPath)) {
       if (role === "wallet_user") {
         navigate("/home", { replace: true });
       } else if (role === "provider_user") {
@@ -87,6 +89,7 @@ function AppWrapper() {
         <Route path='/data-deletion' element={<DataDeletionNotice/>}/>
         <Route path='/terms&conditions' element={<TermsAndConditions/>}/>
         <Route path='/Refund-policy' element={<RefundPolicy/>}/>
+        <Route path='/services' element={<ServicesPage/>}/>
         <Route
           path="/get-verified"
           element={role === "provider_user" ? <PanDetailsForm /> : <Navigate to="/login" replace />}
@@ -95,6 +98,7 @@ function AppWrapper() {
           <Route path="courses/:course_id" element={<CourseComponent />} />
           <Route path="login" element={<ConsumerLogin />} />
           <Route path="purchases" element={<UserCourses />} />
+          <Route path=":productId" element={<ProductPage/>}/> 
           <Route path="*" element={<AboutPage />} />
         </Route>
       </Routes>

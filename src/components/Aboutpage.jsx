@@ -13,7 +13,7 @@ const AboutPage = () => {
     marginRight: 'auto',
     marginLeft: 'auto',
     width: isMobile ? "100%" : "65%",
-    backgroundColor:colors.light
+    backgroundColor: colors.light
   };
 
   // Custom arrow components for the slider
@@ -35,11 +35,12 @@ const AboutPage = () => {
     );
   };
 
-NextArrow.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-};
+  NextArrow.propTypes = {
+    className: PropTypes.string,
+    style: PropTypes.object,
+    onClick: PropTypes.func,
+  };
+
   const PrevArrow = (props) => {
     const { className, style, onClick } = props;
     return (
@@ -58,11 +59,12 @@ NextArrow.propTypes = {
     );
   };
 
-PrevArrow.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  onClick: PropTypes.func,
-};
+  PrevArrow.propTypes = {
+    className: PropTypes.string,
+    style: PropTypes.object,
+    onClick: PropTypes.func,
+  };
+
   // Settings for react-slick slider
   const sliderSettings = {
     arrows: true,
@@ -137,36 +139,34 @@ PrevArrow.propTypes = {
           </p>
         </div>
 
-        {/* Slider Section - Placed after Vision */}
-       {/* Slider Section - Placed after Vision */}
-<div className="mt-12 max-w-4xl mx-auto">
-  <motion.h2 
-    className="text-2xl font-semibold text-gray-900 text-center mb-6"
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-  >
-    Start Monetizing Your Course in Easy Steps
-  </motion.h2>
-  <Slider {...sliderSettings}>
-    {steps.map((step, index) => (
-      <div key={index} className="px-4">
-        <motion.div
-          style={{ backgroundColor: "#11999E" }}
-          className="p-8 shadow-2xl rounded-3xl text-center m-4 border border-white transform transition duration-500"
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 * index }}
-        >
-          <h3 className="text-2xl font-bold text-white mb-2">{step.title}</h3>
-          <p className="mt-2 text-white leading-relaxed">{step.description}</p>
-        </motion.div>
-      </div>
-    ))}
-  </Slider>
-</div>
-
+        {/* Slider Section */}
+        <div className="mt-12 max-w-4xl mx-auto">
+          <motion.h2 
+            className="text-2xl font-semibold text-gray-900 text-center mb-6"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Start Monetizing Your Course in Easy Steps
+          </motion.h2>
+          <Slider {...sliderSettings}>
+            {steps.map((step, index) => (
+              <div key={index} className="px-4">
+                <motion.div
+                  style={{ backgroundColor: "#11999E" }}
+                  className="p-8 shadow-2xl rounded-3xl text-center m-4 border border-white transform transition duration-500"
+                  whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 * index }}
+                >
+                  <h3 className="text-2xl font-bold text-white mb-2">{step.title}</h3>
+                  <p className="mt-2 text-white leading-relaxed">{step.description}</p>
+                </motion.div>
+              </div>
+            ))}
+          </Slider>
+        </div>
 
         {/* Features Section */}
         <div className="mt-12 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -216,6 +216,31 @@ PrevArrow.propTypes = {
             <p className="text-gray-600 mt-2">
               You don’t need to worry about hosting, domain setup, or payment gateways.
               Pictora takes care of everything while you focus on sharing knowledge.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Services Provided Section */}
+        <div className="mt-12 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <motion.div 
+            className="p-6 border-l-4" 
+            style={{ borderColor: colors.primary }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <h2 className="text-xl font-semibold">Course Creation & Sales</h2>
+            <p className="text-gray-600 mt-2">
+              PICTORA empowers educators to create and sell courses effortlessly. We charge a 13% transaction fee per course transaction, including our platform fee.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="p-6 border-l-4" 
+            style={{ borderColor: colors.secondary }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <h2 className="text-xl font-semibold">Digital Art Sales</h2>
+            <p className="text-gray-600 mt-2">
+              Artists can showcase and sell their digital art on our platform. We charge up to an 11% fee per sale, ensuring a seamless experience.
             </p>
           </motion.div>
         </div>
