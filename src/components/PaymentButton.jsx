@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { apiClient, endpoints } from '../utils/endpoints';
 import useAuthStore from '../store';
-
+import './ShinyButton.css';
 const RazorpayButton = ({ productId,amount }) => {
     const { token } = useAuthStore();
-
+const phone = localStorage.getItem('phone')
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -16,6 +16,12 @@ const RazorpayButton = ({ productId,amount }) => {
   };
 
   const handlePayment = async () => {
+
+    let authToken = token || localStorage.getItem('token');
+    if (!authToken) {
+      window.location.href = '/c/login/';
+      return;
+    }
     const scriptLoaded = await loadRazorpayScript();
     if (!scriptLoaded) {
       alert('Unable to load Razorpay SDK. Check your connection.');
@@ -42,22 +48,29 @@ const RazorpayButton = ({ productId,amount }) => {
       key: 'rzp_live_6VoH4dV355Dftw', // Ensure fallback value
       amount: orderData.amount,
       currency: orderData.currency,
-      name: 'Your Company Name',
+      name: 'Pictora',
       description: `Payment for product ${productId}`,
       order_id: orderData.orderId,
-      handler: function (response) {
-        fetch('/api/paymentStatus', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(response),
-        })
-          .then((res) => res.json())
-          .then(() => alert('Payment Successful!'));
-      },
+     handler: function (response) {
+  apiClient.post('/api/paymentStatus', response)
+    .then((res) => {
+      if (res.data && res.data.message === 'success') {
+        window.location.reload();
+      } else {
+      
+        const message = res.data && res.data.message ? res.data.message : 'Unknown error';
+        window.location.href = `/message?msg=${encodeURIComponent(message)}`;
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+,
       prefill: {
         name: 'Customer Name',
-        email: 'customer@example.com',
-        contact: '9999999999',
+        contact: phone||'9999999999',
       },
       theme: {
         color: '#F37254',
@@ -68,7 +81,9 @@ const RazorpayButton = ({ productId,amount }) => {
     paymentObject.open();
   };
 
-  return <button onClick={handlePayment}>Pay Now{amount}</button>;
+  return  <button className="shiny-button" onClick={handlePayment}>
+      Pay {amount}
+    </button>;
 };
 
  RazorpayButton.propTypes = {

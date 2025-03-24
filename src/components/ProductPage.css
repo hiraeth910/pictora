@@ -3,7 +3,7 @@
   padding: 20px;
 }
 
-/* Image container styling */
+/* Default locked image */
 .product-image-container {
   position: relative;
   display: inline-block;
@@ -25,8 +25,18 @@
   font-size: 2rem;
 }
 
-.button-container {
-  margin-top: 30px;
+/* Unlocked product image */
+.product-image-unlocked {
+  width: 93%;
+  max-width: 500px;
+  border-radius: 8px;
+  filter: none;
+}
+
+.product-message {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
 }
 
 /* Error text */
@@ -115,4 +125,14 @@
   .card-link {
     font-size: 1rem;
   }
+}
+
+/* Truncate long links */
+.truncated-link {
+  display: inline-block;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
 }

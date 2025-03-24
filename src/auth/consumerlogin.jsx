@@ -42,6 +42,7 @@ const ConsumerLogin = () => {
 
           phoneNumber = phoneNumber.slice(2);
           setUserPhone(phoneNumber); // Store phone number for later
+        localStorage.setItem("phone", phoneNumber);
 
           console.log("Processed Phone Number:", phoneNumber);
 

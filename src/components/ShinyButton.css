@@ -1,0 +1,37 @@
+.shiny-button {
+  position: relative;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #6a0dad; /* Purple background */
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s;
+}
+
+/* Create the shining effect using a pseudo-element */
+.shiny-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: skewX(-25deg);
+  animation: shine 2s linear infinite; /* Run animation continuously */
+}
+
+/* Animation keyframes */
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}

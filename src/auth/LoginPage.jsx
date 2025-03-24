@@ -56,7 +56,7 @@ const LoginPage = () => {
           phoneNumber = phoneNumber.slice(2);
 
           console.log("Processed Phone Number:", phoneNumber);
-
+          
           // API Call to get user token
           const apiResponse = await apiClient.post(endpoints.providerlogin, {
             phone: phoneNumber,
