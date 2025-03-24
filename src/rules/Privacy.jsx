@@ -74,8 +74,12 @@ const PrivacyPolicy = () => {
       </p>
       <p>
         <strong>Contact Us:</strong><br />
-        
-        Time: Monday - Friday (9:00 - 18:00)
+  <a
+            href="mailto:pictora2025@gmail.com"
+            className="text-blue-600 underline"
+          >
+            pictora2025@gmail.com
+          </a>        Time: Monday - Friday (9:00 - 18:00)
       </p>
     </div>
   );
