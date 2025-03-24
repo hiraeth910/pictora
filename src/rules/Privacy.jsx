@@ -74,7 +74,7 @@ const PrivacyPolicy = () => {
       </p>
       <p>
         <strong>Contact Us:</strong><br />
-        Phone: 8008937297<br />
+        
         Time: Monday - Friday (9:00 - 18:00)
       </p>
     </div>
