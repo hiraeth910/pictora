@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { apiClient, endpoints } from '../utils/endpoints';
-import useAuthStore from '../store';
 import './ShinyButton.css';
-const RazorpayButton = ({ productId,amount }) => {
-    const { token } = useAuthStore();
-const phone = localStorage.getItem('phone')
+
+const RazorpayButton = ({ productId, amount }) => {
+  const phone = localStorage.getItem('phone');
+
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -16,8 +16,7 @@ const phone = localStorage.getItem('phone')
   };
 
   const handlePayment = async () => {
-
-    let authToken = token || localStorage.getItem('token');
+    const authToken = localStorage.getItem('token');
     if (!authToken) {
       window.location.href = '/c/login/';
       return;
@@ -28,47 +27,37 @@ const phone = localStorage.getItem('phone')
       return;
     }
 
-   const orderResponse = await apiClient.post(
-    endpoints.getorderId,
-    { productId: productId },  // Request body
-    {
-        headers: {
-            Authorization:token  // Adding Authorization header
-        }
-    }
-);
+    const orderResponse = await apiClient.post(
+      endpoints.getorderId,
+      { productId: productId },
+      {
+        headers: { Authorization: authToken }
+      }
+    );
 
-    const orderData =  orderResponse.data;
+    const orderData = orderResponse.data;
     if (!orderData.orderId) {
       alert('Server error. Unable to create order.');
       return;
     }
 
     const options = {
-      key: 'rzp_live_6VoH4dV355Dftw', // Ensure fallback value
+      key: 'rzp_live_6VoH4dV355Dftw',
       amount: orderData.amount,
       currency: orderData.currency,
       name: 'Pictora',
       description: `Payment for product ${productId}`,
       order_id: orderData.orderId,
-     handler: function (response) {
-  apiClient.post('/api/paymentStatus', response)
-    .then((res) => {
-      
-        window.location.reload();
-      
-      
-
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-}
-
-,
+      handler: function (response) {
+        apiClient.post('/api/paymentStatus', response)
+          .then(() => window.location.reload())
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      },
       prefill: {
         name: 'Customer Name',
-        contact: phone||'9999999999',
+        contact: phone || '9999999999',
       },
       theme: {
         color: '#F37254',
@@ -79,14 +68,16 @@ const phone = localStorage.getItem('phone')
     paymentObject.open();
   };
 
-  return  <button className="shiny-button" onClick={handlePayment}>
+  return (
+    <button className="shiny-button" onClick={handlePayment}>
       Pay {amount}
-    </button>;
+    </button>
+  );
 };
 
- RazorpayButton.propTypes = {
-  productId: PropTypes.string.isRequired, // Ensures productId is always a required string
-  amount:PropTypes.number.isRequired
+RazorpayButton.propTypes = {
+  productId: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
 };
 
 export default RazorpayButton;
