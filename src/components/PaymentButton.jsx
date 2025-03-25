@@ -54,13 +54,11 @@ const phone = localStorage.getItem('phone')
      handler: function (response) {
   apiClient.post('/api/paymentStatus', response)
     .then((res) => {
-      if (res.data && res.data.message === 'success') {
-        window.location.reload();
-      } else {
       
-        const message = res.data && res.data.message ? res.data.message : 'Unknown error';
-        window.location.href = `/message?msg=${encodeURIComponent(message)}`;
-      }
+        window.location.reload();
+      
+      
+
     })
     .catch((error) => {
       console.error('Error:', error);
