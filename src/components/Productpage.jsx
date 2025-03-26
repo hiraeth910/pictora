@@ -126,6 +126,7 @@ const ProductPage = () => {
           <RazorpayButton
             productId={productId}
             amount={productData.ppu}
+             onPaymentStarted={handlePaymentStarted}
           />
         ) : (
           price && (

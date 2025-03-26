@@ -34,15 +34,15 @@ const RazorpayButton = ({ productId, amount,onPaymentStarted }) => {
       }
     );
     
+    if(onPaymentStarted){
+      onPaymentStarted();
+    }
     const orderData = orderResponse.data;
     if (!orderData.orderId) {
       alert('Server error. Unable to create order.');
       return;
     }
     
-    if(onPaymentStarted){
-      onPaymentStarted();
-    }
     const options = {
       key: 'rzp_live_6VoH4dV355Dftw',
       amount: orderData.amount,
