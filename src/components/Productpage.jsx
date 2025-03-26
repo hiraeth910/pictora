@@ -4,7 +4,8 @@ import RazorpayButton from "./PaymentButton";
 import "./ProductPage.css";
 import useAuthStore from "../store";
 import { getProductInfo, getProductPrice } from "../utils/getapi";
-
+import Lottie from "lottie-react";
+import loaderAnimation from "../assets/loader.json";
 const ProductPage = () => {
   const { token } = useAuthStore();
   const { productId: paramProductId } = useParams();
@@ -43,10 +44,17 @@ const ProductPage = () => {
       alert("Link copied to clipboard");
     }
   };
+  const handlePaymentStarted = () => {
+    setLoading(true);
+  };
 
   return (
     <div className="product-page-container">
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="lottie-loader">
+          <Lottie animationData={loaderAnimation} loop={true} />
+        </div>
+      )}
       {error && <p className="error">{error}</p>}
 
       {(!productData ||(!productData.image&&!productData.link)) && (
@@ -112,7 +120,7 @@ const ProductPage = () => {
       ) : (
         price && (
           <div className="button-container">
-            <RazorpayButton productId={productId} amount={price} />
+            <RazorpayButton productId={productId} amount={price} onPaymentStarted={handlePaymentStarted} />
           </div>
         )
       )}

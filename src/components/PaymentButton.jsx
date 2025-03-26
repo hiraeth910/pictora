@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { apiClient, endpoints } from '../utils/endpoints';
 import './ShinyButton.css';
 
-const RazorpayButton = ({ productId, amount }) => {
+const RazorpayButton = ({ productId, amount,onPaymentStarted }) => {
   const phone = localStorage.getItem('phone');
 
   const loadRazorpayScript = () => {
@@ -26,7 +26,6 @@ const RazorpayButton = ({ productId, amount }) => {
       alert('Unable to load Razorpay SDK. Check your connection.');
       return;
     }
-
     const orderResponse = await apiClient.post(
       endpoints.getorderId,
       { productId: productId },
@@ -34,13 +33,13 @@ const RazorpayButton = ({ productId, amount }) => {
         headers: { Authorization: authToken }
       }
     );
-
+    
     const orderData = orderResponse.data;
     if (!orderData.orderId) {
       alert('Server error. Unable to create order.');
       return;
     }
-
+    
     const options = {
       key: 'rzp_live_6VoH4dV355Dftw',
       amount: orderData.amount,
@@ -50,10 +49,10 @@ const RazorpayButton = ({ productId, amount }) => {
       order_id: orderData.orderId,
       handler: function (response) {
         apiClient.post('/api/paymentStatus', response)
-          .then(() => window.location.reload())
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+        .then(() => window.location.reload())
+        .catch((error) => {
+          console.error('Error:', error);
+        });
       },
       prefill: {
         name: 'Customer Name',
@@ -63,7 +62,10 @@ const RazorpayButton = ({ productId, amount }) => {
         color: '#F37254',
       },
     };
-
+    
+    if(onPaymentStarted){
+      onPaymentStarted();
+    }
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
@@ -78,6 +80,7 @@ const RazorpayButton = ({ productId, amount }) => {
 RazorpayButton.propTypes = {
   productId: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
+  onPaymentStarted: PropTypes.func
 };
 
 export default RazorpayButton;
