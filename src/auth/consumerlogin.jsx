@@ -20,7 +20,7 @@ const ConsumerLogin = () => {
       script.id = "otpless-sdk";
       script.type = "text/javascript";
       script.src = "https://otpless.com/v4/auth.js";
-      script.setAttribute("data-appid", "DOA43V9OYR3TNFU9R08V");
+      script.setAttribute("data-appid", "6VJPMFZXBL47ZICHAF4S");
 
       script.onload = () => console.log("OTPLESS SDK Loaded");
       script.onerror = () => console.error("Failed to load OTPLESS SDK");
