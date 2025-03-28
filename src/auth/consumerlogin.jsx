@@ -58,6 +58,7 @@ const ConsumerLogin = () => {
             } else {
               // Name is available, proceed with login
               setAuth(providerToken, name, mobileNumber, role, tokx, cn);
+              localStorage.setItem('token',tokx)
               navigate(-1);
             }
           }
@@ -80,6 +81,7 @@ const ConsumerLogin = () => {
       if (res === "y") {
         setAuth(providerToken, name, mobileNumber, role, t, newName);
         setIsModalOpen(true);
+        localStorage.setItem('token',t)
         navigate(-1);
       } else {
         console.error("Failed to update name");
